@@ -6,15 +6,13 @@ fn read_line() -> io::Result<String> {
     Ok(buffer.trim().to_string())
 }
 fn main() {
-    let setting = read_line().unwrap().split_whitespace().map(|s| s.parse::<i16>().unwrap()).collect::<Vec<_>>();
-    let mut num_vec = vec![0;setting[0] as usize];
+    let _ = read_line();
+    let num_vec = read_line().unwrap().split_whitespace().map(|s| s.parse::<i16>().unwrap()).collect::<Vec<_>>();
+    let max = num_vec.iter().max().unwrap();
+    let mut sum = 0f32;
 
-    for _i in 0..setting[1] {
-        let method = read_line().unwrap().split_whitespace().map(|s| s.parse::<i16>().unwrap()).collect::<Vec<_>>();
-        for j in method[0]-1..=method[1]-1 {
-            num_vec[j as usize] = method[2];
-        }
+    for i in &num_vec {
+        sum += (*i as f32)/(*max as f32)*100f32;
     }
-
-    println!("{}", num_vec.iter().map(|&s| s.to_string()).collect::<Vec<String>>().join(" "))
+    println!("{}", sum/(num_vec.len() as f32));
 }
