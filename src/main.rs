@@ -6,13 +6,19 @@ fn read_line() -> io::Result<String> {
     Ok(buffer.trim().to_string())
 }
 fn main() {
-    let _ = read_line();
-    let num_vec = read_line().unwrap().split_whitespace().map(|s| s.parse::<i16>().unwrap()).collect::<Vec<_>>();
-    let max = num_vec.iter().max().unwrap();
-    let mut sum = 0f32;
+    let input = read_line().unwrap().chars().collect::<Vec<_>>();
 
-    for i in &num_vec {
-        sum += (*i as f32)/(*max as f32)*100f32;
+    for i in 'a'..='y' {
+        let res = input.iter().position(|&s| s == i);
+        match res {
+            Some(c) => print!("{} ", c),
+            None => print!("-1 ")
+        }
     }
-    println!("{}", sum/(num_vec.len() as f32));
+    let z = input.iter().position(|&s| s== 'z');
+    match z {
+        Some(c) => print!("{}", c),
+        None => print!("-1")
+    }
+
 }
