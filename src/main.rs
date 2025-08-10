@@ -1,4 +1,5 @@
 use std::io::{BufRead, self};
+use std::collections::HashMap;
 
 fn read_line() -> io::Result<String> {
     let mut buffer = String::new();
@@ -7,28 +8,24 @@ fn read_line() -> io::Result<String> {
 }
 
 fn main() {
-    let input = read_line().unwrap();
-    let char_vec = input.chars().map(|s| s.to_ascii_lowercase()).collect::<Vec<_>>();
-    let mut kind = char_vec.clone();
-    kind.sort();
-    kind.dedup();
+    let dict: HashMap<&str, f32> = [("A+", 4.5), ("A0", 4.0), ("B+", 3.5), ("B0", 3.0), ("C+", 2.5), ("C0", 2.0), ("D+", 1.5), ("D0", 1.0), ("F", 0.0)]
+        .iter().cloned().collect();
+    let mut divisor = 0.0; // 학점 * 과목평점(dict)의 합
+    let mut dividend = 0.0; // 학점의 합
 
-    let mut t1 = ' ';
-    let mut c1 = 0;
-    let mut c2 = 0;
-    for s in kind {
-        let count = char_vec.iter().filter(|&t| *t==s).count();
-        if count > c1 {
-            c1 = count;
-            t1 = s;
-        } else if count == c1 {
-            c2 = count;
+    for _i in 0..20 {
+        let input =  read_line().unwrap();
+        let input_vec = input.split_whitespace().collect::<Vec<_>>();
+
+        if input_vec[2] == "P" {
+            continue
+        } else {
+            let unit = input_vec[1].parse::<f32>().unwrap();
+            let subject_point = *dict.get(input_vec[2]).unwrap();
+            divisor += unit * subject_point;
+            dividend += unit;
         }
     }
 
-    if c1 == c2 {
-        println!("?")
-    } else {
-        println!("{}", t1.to_ascii_uppercase())
-    }
+    println!("{}", divisor/dividend);
 }
